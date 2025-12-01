@@ -35,7 +35,7 @@ const EXTENDED_COLORS = [
 
 const Overlay: React.FC<OverlayProps> = ({ config, setConfig, isFormed, setIsFormed, onExport, exportProgress, hasStarted, onStart }) => {
   const [showCard, setShowCard] = useState(false);
-  const [isPanelOpen, setIsPanelOpen] = useState(true);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   const handleCreateCard = () => {
     // Directly set static wish instead of calling AI
@@ -215,8 +215,11 @@ const Overlay: React.FC<OverlayProps> = ({ config, setConfig, isFormed, setIsFor
           )}
 
           {/* Right Sidebar - Designer Panel */}
+          {/* Ensure Sidebar is off-screen if app hasn't started, even if panel is 'open' by default */}
           <div 
-            className={`pointer-events-auto absolute right-0 top-0 bottom-0 w-80 bg-black/90 backdrop-blur-2xl border-l border-white/10 transition-transform duration-500 ease-in-out flex flex-col z-30 shadow-2xl ${isPanelOpen ? 'translate-x-0' : 'translate-x-full'}`}
+            className={`pointer-events-auto absolute right-0 top-0 bottom-0 w-80 bg-black/90 backdrop-blur-2xl border-l border-white/10 transition-transform duration-500 ease-in-out flex flex-col z-30 shadow-2xl 
+            ${!hasStarted ? 'hidden' : ''}
+            ${(isPanelOpen && hasStarted) ? 'translate-x-0' : 'translate-x-full'}`}
           >
             {/* Toggle Tab */}
             <button 
